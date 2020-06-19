@@ -24,7 +24,7 @@
                 </div>
             </section>
             <section style="padding-top: 72px;">
-                <div class="user-input-wrapper">
+                <div>
                     <form>
                         <div class="form-inline user-input-form">
                             <div class="form-group col-sm-auto mb-2">
@@ -35,7 +35,7 @@
                             </div>
                             <div class="form-group col-sm-auto mb-2">
                                 <div>
-                                    <label style="justify-content: left;" for="form-destination">To</label>
+                                    <label style="justify-content: left;" for="flight-destination">To</label>
                                     <input type="search" data-bind="value: flightDestinationOption" id="flight-destination" class="form-control">
                                 </div>
                             </div>
@@ -58,15 +58,15 @@
                     </form>
                 </div>
             </section>
-            <section class="w-90 p-3 best-flights-section">
+            <section class="w-90 p-3">
                 <span data-bind="text: loadingMessage"></span>
-                <div data-bind="visible:searchResults().length" class="best-flights-list-result">
-                    <ul data-bind="foreach: searchResults" class="flights list-group">
-                        <li class="flight list-group-item">
-                            <div class="row result-Wrapper">
+                <div data-bind="visible:searchResults().length" >
+                    <ul data-bind="foreach: searchResults" class="list-group">
+                        <li class="list-group-item">
+                            <div class="row">
                                 <div class="col-2"><span data-bind="text: QuoteSource"></span></div>
-                                <div data-bind="foreach: FlightItineraries" class="col-8 Flights-Results-ResultInfo ">
-                                    <div class="row Flights-Result-ResultInfo">
+                                <div data-bind="foreach: FlightItineraries" class="col-8">
+                                    <div class="row">
                                         <div class="col"><span data-bind="text: AirlineName"></span></div>
                                         <div class="col">
                                             <div class="row">
@@ -78,9 +78,9 @@
                                         <div class="col"><span data-bind="text: NumberOfStops"></span></div>
                                     </div>
                                 </div>
-                                <div class="col-2 Flights-Results-FlightPriceSection ">
-                                    <div class="row"><span data-bind="text: TripTotalPrice"></span><span style="margin-left: 5;">Lowest</span></div>
-                                    <div class="row"><a class="btn btn-info" target="_blank" data-bind="attr: { href: BookingLink}">View Deal &#8594;</a></div>
+                                <div class="col-2 ">
+                                    <div class="row"><span data-bind="text: TripTotalPrice"></span><span style="margin-left: 5px;">Lowest</span></div>
+                                    <div class="row"><a class="btn btn-info" target="_blank" data-bind="attr: { href: BookingLink}">View More Deals &#8594;</a></div>
                                 </div>
                             </div>
                         </li>
