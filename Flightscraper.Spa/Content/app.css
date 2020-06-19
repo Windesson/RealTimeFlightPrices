@@ -1,0 +1,14 @@
+.user-input-form {
+    background: #111236;
+    border-radius: 25px;
+    padding-bottom: 10px;
+}
+
+body {
+    background: #f1f2f8;
+}
+
+label {
+    font-size: .75rem;
+    color: white;
+}
