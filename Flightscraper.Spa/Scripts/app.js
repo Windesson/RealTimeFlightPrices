@@ -1,9 +1,19 @@
+ko.bindingHandlers.ko_autocomplete = {
+    init: function (element, params) {
+        $(element).autocomplete(params());
+    },
+    update: function (element, params) {
+        $(element).autocomplete("option", "source", params().source);
+    }
+};
+
+
 (function () {
 
         // Creates an observable version of the flights result model.
         // Initialize with a JSON object fetched from the server.
         function Flight(data) {
-            var self = this;
+            const self = this;
             data = data || {};
 
             // Data from model
@@ -12,9 +22,18 @@
             self.TripTotalPrice = data.TripTotalPrice;
             self.BookingLink = data.BookingLink;
             self.FlightItineraries = data.FlightItineraries;
+         }
+
+        function Airport(data) {
+            const self = this;
+            data = data || {};
+
+            self.id = data.AirportId;
+            self.label = data.Label;
+            self.iata = data.iata;
         }
 
-        var ViewModel = function () {
+        const ViewModel = function () {
             var self = this;
 
             // View-model observables
@@ -27,9 +46,10 @@
             self.flightOriginOption = ko.observable("MIA");
             self.flightDestinationOption = ko.observable("NYC");
 
+
             // Adds a JSON array of flights to the view model.
             function addFlights(data) {
-                var mapped = ko.utils.arrayMap(data, function (item) {
+                const mapped = ko.utils.arrayMap(data, function (item) {
                     return new Flight(item);
                 });
                 self.searchResults(mapped);
@@ -38,6 +58,14 @@
                 } else {
                     self.loadingMessage("");
                 }
+            }
+
+            function addAirports(data, response) {
+                const mapped = ko.utils.arrayMap(data, function (item) {
+                    return new Airport(item);
+                });
+
+                response(mapped);
             }
 
             // Callback for error responses from the server.
@@ -59,7 +87,7 @@
                             console.log(errors);
                         }).catch( 
                             self.error(defaultMessage)
-                         );
+                        );
                         return;
                     }
                     catch(error) {
@@ -84,6 +112,7 @@
                 }
             };
 
+
             // Fetches a list of flights for round-trip
             self.getFlights = function (fromCode, toCode, departDate, returnDate) {
                 self.error(ko.utils.arrayMap()); // Clear the error
@@ -96,6 +125,11 @@
                 }
 
             };
+
+            self.getAirports = function(request, response) {
+                const text = request.term;
+                app.service.Airport(text).then(data => addAirports(data, response));
+            }
 
             // Initialize the app by getting the trip from Miami to Sao Paulo.
             self.getFlights(self.flightOriginOption(), self.flightDestinationOption(), self.flightDepartDate(), self.flightReturnDate());
