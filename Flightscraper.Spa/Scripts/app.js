@@ -115,7 +115,7 @@ ko.bindingHandlers.ko_autocomplete = {
                     self.searchResults(ko.utils.arrayMap()); //Reset results
                     self.loadingMessage("searching...");
 
-                    $("#search").prop('disabled', true);
+                    $("#search").prop("disabled", true);
                     self.getFlights(originPlace.iata, destinationPlace.iata, depart, self.flightReturnDate())
                         .then(_ => {
                             if (self.searchResults().length === 0) {
@@ -123,13 +123,13 @@ ko.bindingHandlers.ko_autocomplete = {
                             } else {
                                 self.loadingMessage("");
                             }
-                            $("#search").prop('disabled', false);
+                            $("#search").prop("disabled", false);
                         });
 
                 } catch (error) {
                     console.log(error);
                     self.loadingMessage("Oops, something went wrong.");
-                    $("#search").prop('disabled', false);
+                    $("#search").prop("disabled", false);
                 } 
                  
             };
