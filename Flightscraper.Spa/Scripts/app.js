@@ -38,13 +38,13 @@ ko.bindingHandlers.ko_autocomplete = {
 
             // View-model observables
             self.loadingMessage = ko.observable();
-            self.flightDepartDate = ko.observable("2021-01-03");
-            self.flightReturnDate = ko.observable("2021-01-20");
+            self.flightDepartDate = ko.observable();
+            self.flightReturnDate = ko.observable();
 
             self.searchResults = ko.observableArray();
             self.error = ko.observableArray();
-            self.flightOriginOption = ko.observable("MIA");
-            self.flightDestinationOption = ko.observable("NYC");
+            self.flightOriginOption = ko.observable();
+            self.flightDestinationOption = ko.observable();
 
 
             // Adds a JSON array of flights to the view model.
@@ -53,11 +53,6 @@ ko.bindingHandlers.ko_autocomplete = {
                     return new Flight(item);
                 });
                 self.searchResults(mapped);
-                if (mapped.length === 0) {
-                    self.loadingMessage("no flights found.");
-                } else {
-                    self.loadingMessage("");
-                }
             }
 
             function addAirports(data, response) {
@@ -70,7 +65,6 @@ ko.bindingHandlers.ko_autocomplete = {
 
             // Callback for error responses from the server.
             function onError(response) {
-                self.loadingMessage("no flights found.");
                 const defaultMessage = [`Error: ${response.status} ${response.statusText}`];
                 if (response.status === 400)
                 {
@@ -99,35 +93,62 @@ ko.bindingHandlers.ko_autocomplete = {
 
             // Event Listener search for flights 
             self.search = function () {
-                var from = self.flightOriginOption(); //require field
-                var to = self.flightDestinationOption(); //require field
-                var depart = self.flightDepartDate(); //require field
-                if (from && to && depart) {
-                    self.getFlights(from, to, depart, self.flightReturnDate());
-                }
-                else {
-                    if (!from) alert("Please enter 'From'");
-                    else if (!to) alert("Please enter 'To'");
-                    else if (!depart) alert("Please enter 'Depart'");
-                }
-            };
+                const originPlace = self.flightOriginOption(); //require field
+                const destinationPlace = self.flightDestinationOption(); //require field
+                const depart = self.flightDepartDate(); //require field
 
+                try {
+                    if (!originPlace || $("#flight-origin")[0].value !== originPlace.label) {
+                        alert("Please enter a valid 'From' airport.");
+                        return;
+                    }
+                    if (!destinationPlace || $("#flight-destination")[0].value !== destinationPlace.label) {
+                        alert("Please enter a valid 'To' airport.");
+                        return;
+                    }
+                    if (!depart) {
+                        alert("Please enter 'Depart'");
+                        return;
+                    }
+
+                    self.error(ko.utils.arrayMap()); // Clear the error
+                    self.searchResults(ko.utils.arrayMap()); //Reset results
+                    self.loadingMessage("searching...");
+
+                    $("#search").prop('disabled', true);
+                    self.getFlights(originPlace.iata, destinationPlace.iata, depart, self.flightReturnDate())
+                        .then(_ => {
+                            if (self.searchResults().length === 0) {
+                                self.loadingMessage("no flights found.");
+                            } else {
+                                self.loadingMessage("");
+                            }
+                            $("#search").prop('disabled', false);
+                        });
+
+                } catch (error) {
+                    console.log(error);
+                    self.loadingMessage("Oops, something went wrong.");
+                    $("#search").prop('disabled', false);
+                } 
+                 
+            };
 
             // Fetches a list of flights for round-trip
             self.getFlights = function (fromCode, toCode, departDate, returnDate) {
-                self.error(ko.utils.arrayMap()); // Clear the error
-                self.loadingMessage("searching...");
-                self.searchResults(ko.utils.arrayMap()) ;
                 if (returnDate) {
-                    app.service.RoundTrip(fromCode, toCode, departDate, returnDate).then(addFlights, onError);
+                    return app.service.RoundTrip(fromCode, toCode, departDate, returnDate).then(addFlights, onError);
                 } else {
-                    app.service.OneWayTrip(fromCode, toCode, departDate).then(addFlights, onError);
+                    return app.service.OneWayTrip(fromCode, toCode, departDate).then(addFlights, onError);
                 }
-
             };
 
             self.selectFromAirport = function (event, ui) {
-                self.flightOriginOption(ui.item.iata);
+                self.flightOriginOption(ui.item);
+            };
+
+            self.selectToAirport = function (event, ui) {
+                self.flightDestinationOption(ui.item);
             };
 
             self.getAirports = function(request, response) {
@@ -135,7 +156,7 @@ ko.bindingHandlers.ko_autocomplete = {
                 app.service.Airport(text).then(data => addAirports(data, response));
             }
 
-            //load complete.
+            //display binding elements
             $("#knockoutBound").show();
 
         };
