@@ -1,9 +1,40 @@
 ko.bindingHandlers.ko_autocomplete = {
     init: function (element, params) {
-        $(element).autocomplete(params());
-    },
-    update: function (element, params) {
-        $(element).autocomplete("option", "source", params().source);
+        const settings = params(); //{ source: fetchAirportFromTheApi, selected: airportTextFieldToBind }"
+        const airports = settings.source;
+        const selectedOption = settings.selected;
+
+        const updateElementValueWithAirportCode = function (event, ui) {
+
+            // Stop the default behavior
+            event.preventDefault();
+
+            // Update our SelectedOption observable
+            if (ui.item != null && typeof ui.item !== "undefined") {
+                // Update the value of the html element with the label
+                // of the activated option in the list (ui.item)
+                $(element).val(ui.item.label);
+
+                // ui.item - id|label|...
+                selectedOption(ui.item);
+            } else {
+                //user enter airport/city not in the dropdown autocomplete
+                selectedOption({ iata: $(element)[0].value});
+            } 
+        };
+
+        $(element).autocomplete({
+            source: airports,
+            select: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            },
+            focus: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            },
+            change: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            }
+    });
     }
 };
 
@@ -98,12 +129,12 @@ ko.bindingHandlers.ko_autocomplete = {
                 const depart = self.flightDepartDate(); //require field
 
                 try {
-                    if (!originPlace || $("#flight-origin")[0].value !== originPlace.label) {
-                        alert("Please enter a valid 'From' airport.");
+                    if (!originPlace) {
+                        alert("Please enter 'From' airport.");
                         return;
                     }
-                    if (!destinationPlace || $("#flight-destination")[0].value !== destinationPlace.label) {
-                        alert("Please enter a valid 'To' airport.");
+                    if (!destinationPlace) {
+                        alert("Please enter 'To' airport.");
                         return;
                     }
                     if (!depart) {
@@ -141,14 +172,6 @@ ko.bindingHandlers.ko_autocomplete = {
                 } else {
                     return app.service.OneWayTrip(fromCode, toCode, departDate).then(addFlights, onError);
                 }
-            };
-
-            self.selectFromAirport = function (event, ui) {
-                self.flightOriginOption(ui.item);
-            };
-
-            self.selectToAirport = function (event, ui) {
-                self.flightDestinationOption(ui.item);
             };
 
             self.getAirports = function(request, response) {

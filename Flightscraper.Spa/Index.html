@@ -30,13 +30,13 @@
                             <div class="form-group col-sm-auto mb-2">
                                 <div>
                                     <label for="flight-origin" class="active" style="justify-content: left;">From</label>
-                                    <input type="search" data-bind="ko_autocomplete: { source: getAirports, select: selectFromAirport }" id="flight-origin" class="form-control">
+                                    <input type="search" data-bind="ko_autocomplete: { source: getAirports, selected: flightOriginOption }" id="flight-origin" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group col-sm-auto mb-2">
                                 <div>
                                     <label style="justify-content: left;" for="flight-destination">To</label>
-                                    <input type="search" data-bind="ko_autocomplete: { source: getAirports, select: selectToAirport }" id="flight-destination" class="form-control">
+                                    <input type="search" data-bind="ko_autocomplete: { source: getAirports, selected: flightDestinationOption }" id="flight-destination" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group col-sm-auto mb-2">
