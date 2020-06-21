@@ -30,7 +30,7 @@ ko.bindingHandlers.ko_autocomplete = {
 
             self.id = data.AirportId;
             self.label = data.Label;
-            self.iata = data.iata;
+            self.iata = data.IATA;
         }
 
         const ViewModel = function () {
@@ -126,13 +126,14 @@ ko.bindingHandlers.ko_autocomplete = {
 
             };
 
+            self.selectFromAirport = function (event, ui) {
+                self.flightOriginOption(ui.item.iata);
+            };
+
             self.getAirports = function(request, response) {
                 const text = request.term;
                 app.service.Airport(text).then(data => addAirports(data, response));
             }
-
-            // Initialize the app by getting the trip from Miami to Sao Paulo.
-            self.getFlights(self.flightOriginOption(), self.flightDestinationOption(), self.flightDepartDate(), self.flightReturnDate());
 
             //load complete.
             $("#knockoutBound").show();
