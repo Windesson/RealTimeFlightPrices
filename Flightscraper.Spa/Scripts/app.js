@@ -2,7 +2,7 @@ ko.bindingHandlers.ko_autocomplete = {
     init: function (element, params) {
         const settings = params(); //{ source: fetchAirportFromTheApi, selected: airportTextFieldToBind }"
         const airports = settings.source;
-        const selectedOption = settings.selected;
+        const selectedAirport = settings.selected;
 
         const updateElementValueWithAirportCode = function (event, ui) {
 
@@ -10,16 +10,16 @@ ko.bindingHandlers.ko_autocomplete = {
             event.preventDefault();
 
             // Update our SelectedOption observable
-            if (ui.item != null && typeof ui.item !== "undefined") {
+            if (ui.item !== null && typeof ui.item !== "undefined") {
                 // Update the value of the html element with the label
                 // of the activated option in the list (ui.item)
                 $(element).val(ui.item.label);
 
                 // ui.item - id|label|...
-                selectedOption(ui.item);
+                selectedAirport(ui.item);
             } else {
                 //user enter airport/city not in the dropdown autocomplete
-                selectedOption({ iata: $(element)[0].value});
+                selectedAirport({ airport: $(element)[0].value });
             } 
         };
 
@@ -61,7 +61,7 @@ ko.bindingHandlers.ko_autocomplete = {
 
             self.id = data.AirportId;
             self.label = data.Label;
-            self.iata = data.IATA;
+            self.airport = data.IATA;
         }
 
         const ViewModel = function () {
@@ -147,7 +147,7 @@ ko.bindingHandlers.ko_autocomplete = {
                     self.loadingMessage("searching...");
 
                     $("#search").prop("disabled", true);
-                    self.getFlights(originPlace.iata, destinationPlace.iata, depart, self.flightReturnDate())
+                    self.getFlights(originPlace.airport, destinationPlace.airport, depart, self.flightReturnDate())
                         .then(_ => {
                             if (self.searchResults().length === 0) {
                                 self.loadingMessage("no flights found.");

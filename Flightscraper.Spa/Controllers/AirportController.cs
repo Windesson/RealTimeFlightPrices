@@ -44,7 +44,7 @@ namespace Flightscraper.Spa.Controllers
             {
                 IEnumerable<Airport> result = query.ToLower() == "all" ? 
                     _airportRepository.GetAirports() : 
-                    _airportRepository.FindAirports(query);
+                    _airportRepository.FindAirports(query, 10);
 
                 return Ok(result);
 
