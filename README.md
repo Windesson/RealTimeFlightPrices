@@ -62,6 +62,7 @@ If users using unsupported browser, a unsupported browser message will be displa
 
 Images
 ==========================
+
 ![Alt text](README/twoway.jpg?raw=true "two-way flight")
 
 ![Alt text](README/oneway.jpg?raw=true "one-way flight")
@@ -76,6 +77,6 @@ Navigate to `<project root>\Flightscraper.Spa\Logs`
 
 Web Routes
 ==========
-`api/airport/{query}` to query for airport information. ( functionality not yet wired to the home page)
+`api/airport/{query}` to query for airport information.
 `api/flight/{originPlace}/{destinationPlace}/{outboundDate}` to search one-way flight prices
 `api/flight/{originPlace}/{destinationPlace}/{outboundDate}/{inboundDate}` to search two-way flight prices
