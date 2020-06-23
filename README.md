@@ -1,12 +1,12 @@
-An ASP.NET Web Single-Page Applications to Inquire Real-Time Flights Prices
+A Single-Page Applications to Inquire Real-Time Flights Prices
 ==============================================
 A Web App implementing a Web Services that will provide the end-user with the functionality to 
 inquire about real-time flights prices.
 
 Skyscanner - API limitation
 ==============================
-Rapidapi-Skyscanner api most often does not return inbound flights quotes. you can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
-Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself. This project will redirect you to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
+Rapidapi-Skyscanner API most often does not return inbound flights quotes for a round trip. This can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
+Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself. This project will redirect the user to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
 
 Azure Live
 ===========
@@ -14,7 +14,7 @@ http://realtimeflightprices.azurewebsites.net/
 
 Prep Work
 ===============
-1. Get YOUR API rapidapi-kyscanner-flight key at https://rapidapi.com/skyscanner/api/skyscanner-flight-search
+1. Get YOUR API key at https://rapidapi.com/skyscanner/api/skyscanner-flight-search
 2. Create the following external file `C:\secrets\rapidApiSettingSecrets.config` file.
 For example, in the following markup, the file rapidApiSettingSecrets.config contains all the app secrets:
 ```
@@ -44,13 +44,13 @@ User will manually enter the airport's IATA code or city's name information or s
 
 **auto-complete**: Will show top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
-Note: For a production version of similar App, the user should be limit to only allow to select values from the drop-down list. This would avoid unnecessary search for invalid airport code. 
+Note: For a production version of similar App, the user should be limited to select airports from the drop-down list. This would avoid unnecessary search for invalid airport or city code. 
 
 What is the expected output
 ===========================
 If flights found... each flight response will contain the `search-source`, `carrier`, `source-destination`, `number of stops`, `flight-price`, `link` to view more deals.
 
-**Link to view deals** this will take the user to either Kayak or Skyscanner to browse for t deals.
+**Link to view deals**: This will take the user to either Kayak or Skyscanner to browse for t deals.
 
 Note: There might be cases where flight results might seem duplicated in the home page, but it actual means that the flight service provider might have similar flights departing on different time.
 this edge case will be ignore for the present occasion.
