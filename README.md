@@ -78,4 +78,4 @@ Web Routes
 ==========
 `api/airport/{query}` to query for airport information.\
 `api/flight/{originPlace}/{destinationPlace}/{outboundDate}` to search one-way flight prices.\
-`api/flight/{originPlace}/{destinationPlace}/{outboundDate}/{inboundDate}` to search two-way flight prices.\
+`api/flight/{originPlace}/{destinationPlace}/{outboundDate}/{inboundDate}` to search two-way flight prices.
