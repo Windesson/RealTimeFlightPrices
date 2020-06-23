@@ -1,4 +1,4 @@
-﻿
+﻿<!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
@@ -96,10 +96,10 @@
     <script src="Scripts/bootstrap.js"></script>
     <script src="Scripts/knockout-3.5.1.js"></script>
     <script>
-       $("#knockoutBound").hide();
-       var isIE = /Trident/.test(navigator.userAgent);
-       var isEdge = /Edge/.test(navigator.userAgent);
-       if (isIE || isEdge) {
+        $("#knockoutBound").hide();
+        var isChrome = /chrome/.test(navigator.userAgent.toLowerCase());
+        var isFirefox = /firefox/.test(navigator.userAgent.toLowerCase());
+        if (!(isChrome || isFirefox)) {
            $("#main").append("<p>Application does not currently support this browser. Please use latest firefox or chrome.</p>");
            throw new Error("Application does not currently support current browser.");
        }

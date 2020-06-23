@@ -1,12 +1,14 @@
-A Single-Page Applications to Inquire Real-Time Flights Prices
-==============================================
-A Web App implementing a Web Services that will provide the end-user with the functionality to 
-inquire about real-time flights prices.
+A Single-Page Application to Inquire Real-Time Flight Prices
+==============================================================
+A Web App implementing web services to provide user with ability to inquire for real-time flight prices.
 
 Skyscanner - API limitation
 ==============================
-Rapidapi-Skyscanner API most often does not return inbound flights quotes for a round trip. This can verify by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
-Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself. This project will redirect the user to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
+Rapidapi-Skyscanner most often does not return inbound flights price quotes for a round trip. This can be verified by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
+
+Rapidapi-Skyscanner will not return a link to book the quote deal. 
+
+This project will redirect the user to either Kayak or Skyscanner website by clicking on the “View More Deals” button, but don't expected to find the same deals as this is a real-time search event.
 
 Azure Live
 ===========
@@ -40,13 +42,16 @@ Once the application has loaded, a new Firefox browser tab will be launched to t
 
 What is the expected input
 ===========================
-User will manually enter the airport's IATA code or city's name information or select a option from the auto-complete drop-down list in the 'FROM'/'TO' text box, select the depart and return date then click search.
+User will manually enter the airport's IATA code or city's name information or select an option from the auto-complete drop-down list in the 'FROM'/'TO' text box. 
+User will select the depart and return dates.
+User will then click search.
 
-**auto-complete**: Will show top 5 matching airports where the user input starts with the airports IATA code or city name. 
+**auto-complete**: shows the top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
-**search**: Will retrieve flights from both RapidAPI-Skyscanner and Kayak website. Since scraping website is not ideal or reliable for computer-to-computer communication, the user might need to search at least 2 times before getting a result.   
+**search**: Retrieves flight from both Rapidapi-Skyscanner and Kayak website. Since scraping website is not ideal or reliable for computer-to-computer communication, search at least twice will return better results.   
 
-Note: For a production version of similar App, the user should be limited to select airports from the drop-down list. This would avoid unnecessary search for invalid airport or city code. 
+Note: For a production version of similar App, the user should be limited to select airports from the drop-down list. 
+This is to avoid unnecessary search for invalid airport or city code. 
 
 What is the expected output
 ===========================
@@ -54,12 +59,10 @@ If flights found... each flight response will contain the `search-source`, `carr
 
 **Link to view deals**: This will take the user to either Kayak or Skyscanner to browse for more relevant flight deals.
 
-Note: There might be cases where flight results might seem duplicated in the home page, but it actual means that the flight service provider might have similar flights departing on different time.
-this edge case will be ignore for the present occasion.
-
-If no flights found. The user will see message in the home page indicating 'no flights found.'
-
-If users using unsupported browser, a unsupported browser message will be displayed.
+Note: 
+There might be cases where flight results might seem duplicated in the home page, but it actually means that the flight service provider might have similar flights departing on different time.
+If no flights are found, the user will see a message in the home page indicating "no flights found"
+If the user browser is not support, a message will be displayed. "Application does not currently support this browser. Please use latest firefox or chrome."
 
 Images
 ==========================
