@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Castle.Core.Internal;
 using Flightscraper.Spa.Conf;
 using Flightscraper.Spa.Extension;
 using Flightscraper.Spa.Interfaces;
@@ -54,7 +55,10 @@ namespace Flightscraper.Spa.Data
                         string[] values = line.Split(',');
 
                         var iataCode = values[4].Replace("\"", "");
-                        if(iataCode.Length != 3) continue;
+                        var city = values[2].Replace("\"", "");
+                        var country = values[3].Replace("\"", "");
+
+                        if (iataCode.Length != 3 || city.IsNullOrEmpty() || country.IsNullOrEmpty()) continue;
 
                         var airport = new Airport();
                         if (int.TryParse(values[0], out var id))
@@ -63,8 +67,8 @@ namespace Flightscraper.Spa.Data
                         }
 
                         airport.Name = values[1].Replace("\"","");
-                        airport.City = values[2].Replace("\"", "");
-                        airport.Country = values[3].Replace("\"", "");
+                        airport.City = city;
+                        airport.Country = country;
                         airport.IATA = iataCode;
                         airport.ICAO = values[5].Replace("\"", "");
 
@@ -82,18 +86,17 @@ namespace Flightscraper.Spa.Data
         }
 
         /// <summary>
-        /// Find aiports on query matching either the City, Name, IATA or Country
+        /// Find aiports on query 
         /// </summary>
         /// <param name="query">string query to search</param>
         /// <returns></returns>
-        public IEnumerable<Airport> FindAirports(string query)
+        public IEnumerable<Airport> FindAirports(string query, int limit)
         {
             return _airports
-                .Where(_ => _.City.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                            _.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                            _.IATA.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-                            _.Country.Contains(query, StringComparison.OrdinalIgnoreCase)) 
-                .OrderBy(_ => _.Name);
+                .Where(_ => _.City.StartsWith(query, StringComparison.OrdinalIgnoreCase) ||
+                            _.IATA.StartsWith(query, StringComparison.OrdinalIgnoreCase) ||
+                            _.Country.StartsWith(query, StringComparison.OrdinalIgnoreCase)) 
+                .OrderByDescending(_ => _.Country == "United States").ThenBy(_ => _.City).Take(limit);
         }
 
         /// <summary>

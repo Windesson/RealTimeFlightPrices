@@ -1,9 +1,52 @@
+// Autocomplete to show airports on text box 'FROM' 'TO'
+ko.bindingHandlers.ko_autocomplete = {
+    init: function (element, params) {
+        const settings = params(); //{ source: fetchAirportFromTheApi, selected: airportTextFieldToBind }"
+        const airports = settings.source;
+        const selectedAirport = settings.selected;
+
+        const updateElementValueWithAirportCode = function (event, ui) {
+
+            // Stop the default behavior
+            event.preventDefault();
+
+            // Update our SelectedOption observable
+            if (ui.item !== null && typeof ui.item !== "undefined") {
+                // Update the value of the html element with the label
+                // of the activated option in the list (ui.item)
+                $(element).val(ui.item.label);
+
+                // ui.item - id|label|...
+                selectedAirport(ui.item);
+            } else {
+                //user enter airport/city not in the dropdown autocomplete
+                selectedAirport({ airport: $(element)[0].value });
+            } 
+        };
+
+        // Event handler to update selected airport
+        $(element).autocomplete({
+            source: airports,
+            select: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            },
+            focus: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            },
+            change: function (event, ui) {
+                updateElementValueWithAirportCode(event, ui);
+            }
+    });
+    }
+};
+
+
 (function () {
 
         // Creates an observable version of the flights result model.
         // Initialize with a JSON object fetched from the server.
         function Flight(data) {
-            var self = this;
+            const self = this;
             data = data || {};
 
             // Data from model
@@ -12,37 +55,48 @@
             self.TripTotalPrice = data.TripTotalPrice;
             self.BookingLink = data.BookingLink;
             self.FlightItineraries = data.FlightItineraries;
+         }
+
+        function Airport(data) {
+            const self = this;
+            data = data || {};
+
+            self.id = data.AirportId;
+            self.label = data.Label;
+            self.airport = data.IATA;
         }
 
-        var ViewModel = function () {
+        const ViewModel = function () {
             var self = this;
 
             // View-model observables
             self.loadingMessage = ko.observable();
-            self.flightDepartDate = ko.observable("2021-01-03");
-            self.flightReturnDate = ko.observable("2021-01-20");
+            self.flightDepartDate = ko.observable();
+            self.flightReturnDate = ko.observable();
 
             self.searchResults = ko.observableArray();
             self.error = ko.observableArray();
-            self.flightOriginOption = ko.observable("MIA");
-            self.flightDestinationOption = ko.observable("NYC");
+            self.flightOriginOption = ko.observable();
+            self.flightDestinationOption = ko.observable();
+
 
             // Adds a JSON array of flights to the view model.
             function addFlights(data) {
-                var mapped = ko.utils.arrayMap(data, function (item) {
+                const mapped = ko.utils.arrayMap(data, function (item) {
                     return new Flight(item);
                 });
                 self.searchResults(mapped);
-                if (mapped.length === 0) {
-                    self.loadingMessage("no flights found.");
-                } else {
-                    self.loadingMessage("");
-                }
+            }
+
+            // mapp a JSON array of airports to the view model.
+            function mapAirportsToResponse(data, response) {
+                const mapped = data.map(airport => new Airport(airport));
+
+                response(mapped);
             }
 
             // Callback for error responses from the server.
             function onError(response) {
-                self.loadingMessage("no flights found.");
                 const defaultMessage = [`Error: ${response.status} ${response.statusText}`];
                 if (response.status === 400)
                 {
@@ -59,11 +113,11 @@
                             console.log(errors);
                         }).catch( 
                             self.error(defaultMessage)
-                         );
+                        );
                         return;
                     }
                     catch(error) {
-                        //ignore
+                        console.log(error);
                     }
                 }
                 self.error(defaultMessage);
@@ -71,36 +125,63 @@
 
             // Event Listener search for flights 
             self.search = function () {
-                var from = self.flightOriginOption(); //require field
-                var to = self.flightDestinationOption(); //require field
-                var depart = self.flightDepartDate(); //require field
-                if (from && to && depart) {
-                    self.getFlights(from, to, depart, self.flightReturnDate());
-                }
-                else {
-                    if (!from) alert("Please enter 'From'");
-                    else if (!to) alert("Please enter 'To'");
-                    else if (!depart) alert("Please enter 'Depart'");
-                }
+                const originPlace = self.flightOriginOption(); //require field
+                const destinationPlace = self.flightDestinationOption(); //require field
+                const depart = self.flightDepartDate(); //require field
+
+                try {
+                    if (!originPlace) {
+                        alert("Please enter 'From' airport.");
+                        return;
+                    }
+                    if (!destinationPlace) {
+                        alert("Please enter 'To' airport.");
+                        return;
+                    }
+                    if (!depart) {
+                        alert("Please enter 'Depart'");
+                        return;
+                    }
+
+                    self.error(ko.utils.arrayMap()); // Clear the error
+                    self.searchResults(ko.utils.arrayMap()); //Reset results
+                    self.loadingMessage("searching...");
+
+                    $("#search").prop("disabled", true); // Disable search button on search init
+                    self.getFlights(originPlace.airport, destinationPlace.airport, depart, self.flightReturnDate())
+                        .then(_ => {
+                            if (self.searchResults().length === 0) {
+                                self.loadingMessage("no flights found.");
+                            } else {
+                                self.loadingMessage("");
+                            }
+                            $("#search").prop("disabled", false); // Enable search button on search complete
+                        });
+
+                } catch (error) {
+                    console.log(error);
+                    self.loadingMessage("Oops, something went wrong.");
+                    $("#search").prop("disabled", false); // Disable search button on error
+                } 
+                 
             };
 
             // Fetches a list of flights for round-trip
             self.getFlights = function (fromCode, toCode, departDate, returnDate) {
-                self.error(ko.utils.arrayMap()); // Clear the error
-                self.loadingMessage("searching...");
-                self.searchResults(ko.utils.arrayMap()) ;
                 if (returnDate) {
-                    app.service.RoundTrip(fromCode, toCode, departDate, returnDate).then(addFlights, onError);
+                    return app.service.RoundTrip(fromCode, toCode, departDate, returnDate).then(addFlights, onError);
                 } else {
-                    app.service.OneWayTrip(fromCode, toCode, departDate).then(addFlights, onError);
+                    return app.service.OneWayTrip(fromCode, toCode, departDate).then(addFlights, onError);
                 }
-
             };
 
-            // Initialize the app by getting the trip from Miami to Sao Paulo.
-            self.getFlights(self.flightOriginOption(), self.flightDestinationOption(), self.flightDepartDate(), self.flightReturnDate());
+            // Fetch a list of airports from the server
+            self.getAirports = function (request, response) {
+                const text = request.term;
+                app.service.Airport(text).then(data => mapAirportsToResponse(data, response));
+            };
 
-            //load complete.
+            //display binding elements
             $("#knockoutBound").show();
 
         };

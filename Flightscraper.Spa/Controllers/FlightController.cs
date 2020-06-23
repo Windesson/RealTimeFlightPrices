@@ -17,6 +17,7 @@ namespace Flightscraper.Spa.Controllers
     {
         private readonly IFlightRepository _flightRepository;
         private static readonly ILog Logger;
+        const int maxTotalDaysRangeAllowed = 334;
 
         /// <summary>
         ///  Set unique logger.
@@ -102,19 +103,34 @@ namespace Flightscraper.Spa.Controllers
 
             if (ConvertDate(departDateString, out var departDate))
             {
+
                 if (departDate < DateTime.Today) // cannot depart from the past 
                 {
                     ModelState.AddModelError("outboundDate", $"Depart date cannot be less than today. `{DateTime.Today}`");
+                }
+
+                if (IsDateWithinAllowedRange(departDate)) // depart cannot be more than 334 days 
+                {
+                    ModelState.AddModelError("outboundDate", $"Depart date cannot be more than than {maxTotalDaysRangeAllowed} days from today's date.");
                 }
 
                 if (!returnDateString.IsNullOrEmpty()) // if return date is provided
                 {
                     if (ConvertDate(returnDateString, out var returnDate))
                     {
-                        if (returnDate < departDate) { // cannot return a date less than the depart date
+                        if (returnDate < departDate)
+                        { // cannot return a date less than the depart date
                             ModelState.AddModelError("inboundDate", "Return date must be equal or greater than the Depart date.");
                         }
-                    } else {
+
+                        if (IsDateWithinAllowedRange(returnDate)) // depart cannot be more than 334 days 
+                        {
+                            ModelState.AddModelError("inboundDate", $"Return date cannot be more than {maxTotalDaysRangeAllowed} days from today's date.");
+                        }
+
+                    }
+                    else
+                    {
                         ModelState.AddModelError("inboundDate", "Return date expected format “yyyy-mm-dd” or empty string for one-way flight.");
                     }
                 }
@@ -124,6 +140,11 @@ namespace Flightscraper.Spa.Controllers
                 ModelState.AddModelError("outboundDate", "Depart date expected format “yyyy-mm-dd”.");
             }
 
+        }
+
+        private static bool IsDateWithinAllowedRange(DateTime departDate)
+        {
+            return (departDate - DateTime.Today).TotalDays > maxTotalDaysRangeAllowed;
         }
 
         private bool  ConvertDate(string dateString, out DateTime date)
