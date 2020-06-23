@@ -42,9 +42,9 @@ Once the application has loaded, a new Firefox browser tab will be launched to t
 
 What is the expected input
 ===========================
-User will manually enter the airport's IATA code or city's name information or select an option from the auto-complete drop-down list in the 'FROM'/'TO' text box.\
+User will manually enter From/To airport's IATA code or city's name information or select an option from the auto-complete drop-down list.\
 User will select the depart and return dates.\
-User will then click search.\
+User will then click search.
 
 **On Auto-complete**: shows the top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
@@ -60,7 +60,7 @@ If flights found... each flight response will contain the `search-source`, `carr
 **Link to view deals**: This will take the user to either Kayak or Skyscanner to browse for more relevant flight deals.
 
 Note: 
-There might be cases where flight results might seem duplicated in the home page, but it actually means that the flight service provider might have similar flights departing on different time.
+There might be cases where flight results might seem duplicated in the home page, but it actually means that the flight service provider might have similar flights departing on different times.
 If no flights are found, the user will see a message in the home page indicating "no flights found"
 If the user browser is not support, a message will be displayed. "Application does not currently support this browser. Please use latest firefox or chrome."
 
