@@ -44,6 +44,8 @@ User will manually enter the airport's IATA code or city's name information or s
 
 **auto-complete**: Will show top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
+**search**: Will retrieve flights from both RapidAPI-Skyscanner and Kayak website. Since scraping website is not ideal or reliable for computer-to-computer communication, the user might need to search at least 2 times before getting a result.   
+
 Note: For a production version of similar App, the user should be limited to select airports from the drop-down list. This would avoid unnecessary search for invalid airport or city code. 
 
 What is the expected output
