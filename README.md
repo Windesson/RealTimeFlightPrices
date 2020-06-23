@@ -31,7 +31,7 @@ Getting Started
 ================
 From the terminal, run: `git clone https://github.com/Windesson/RealTimeFlightPrices.git`
 
-This will give you a directory named `RealTimeFlightPrices` complete with the source code for the application and all of the necessary tools.
+This will give you a directory named `RealTimeFlightPrices` with the source code for the application and all of the necessary tools.
 
 **Deploy ASP.Net Website in IIS on Localhost**
 1. Using  Visual Studio IDE 2017 File > Open > Project/Solution
