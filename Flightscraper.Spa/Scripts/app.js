@@ -1,3 +1,4 @@
+// Autocomplete to show airports on text box 'FROM' 'TO'
 ko.bindingHandlers.ko_autocomplete = {
     init: function (element, params) {
         const settings = params(); //{ source: fetchAirportFromTheApi, selected: airportTextFieldToBind }"
@@ -23,6 +24,7 @@ ko.bindingHandlers.ko_autocomplete = {
             } 
         };
 
+        // Event handler to update selected airport
         $(element).autocomplete({
             source: airports,
             select: function (event, ui) {
@@ -86,10 +88,9 @@ ko.bindingHandlers.ko_autocomplete = {
                 self.searchResults(mapped);
             }
 
-            function addAirports(data, response) {
-                const mapped = ko.utils.arrayMap(data, function (item) {
-                    return new Airport(item);
-                });
+            // mapp a JSON array of airports to the view model.
+            function mapAirportsToResponse(data, response) {
+                const mapped = data.map(airport => new Airport(airport));
 
                 response(mapped);
             }
@@ -116,7 +117,7 @@ ko.bindingHandlers.ko_autocomplete = {
                         return;
                     }
                     catch(error) {
-                        //ignore
+                        console.log(error);
                     }
                 }
                 self.error(defaultMessage);
@@ -146,7 +147,7 @@ ko.bindingHandlers.ko_autocomplete = {
                     self.searchResults(ko.utils.arrayMap()); //Reset results
                     self.loadingMessage("searching...");
 
-                    $("#search").prop("disabled", true);
+                    $("#search").prop("disabled", true); // Disable search button on search init
                     self.getFlights(originPlace.airport, destinationPlace.airport, depart, self.flightReturnDate())
                         .then(_ => {
                             if (self.searchResults().length === 0) {
@@ -154,13 +155,13 @@ ko.bindingHandlers.ko_autocomplete = {
                             } else {
                                 self.loadingMessage("");
                             }
-                            $("#search").prop("disabled", false);
+                            $("#search").prop("disabled", false); // Enable search button on search complete
                         });
 
                 } catch (error) {
                     console.log(error);
                     self.loadingMessage("Oops, something went wrong.");
-                    $("#search").prop("disabled", false);
+                    $("#search").prop("disabled", false); // Disable search button on error
                 } 
                  
             };
@@ -174,10 +175,11 @@ ko.bindingHandlers.ko_autocomplete = {
                 }
             };
 
-            self.getAirports = function(request, response) {
+            // Fetch a list of airports from the server
+            self.getAirports = function (request, response) {
                 const text = request.term;
-                app.service.Airport(text).then(data => addAirports(data, response));
-            }
+                app.service.Airport(text).then(data => mapAirportsToResponse(data, response));
+            };
 
             //display binding elements
             $("#knockoutBound").show();
