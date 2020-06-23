@@ -1,11 +1,11 @@
 An ASP.NET Web Single-Page Applications to Inquire Real-Time Flights Prices
 ==============================================
-A Web App implementing a Web Service that will provide the end-user with the functionality to 
+A Web App implementing a Web Services that will provide the end-user with the functionality to 
 inquire about real-time flights prices.
 
 Skyscanner - API limitation
 ==============================
-Rapidapi-Skyscanner api most often does not return inbound flights quotes. you can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search
+Rapidapi-Skyscanner api most often does not return inbound flights quotes. you can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
 Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself.  
 This project will redirect you to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
 
@@ -35,25 +35,15 @@ This will give you a directory named `RealTimeFlightPrices` complete with the so
 **Deploy ASP.Net Website in IIS on Localhost**
 1. Using  Visual Studio IDE 2017 File > Open > Project/Solution
 2. Select the solution file in the RealTimeFlightPrices folder
-3. BUild the project and Launch the application using IIS Express(Firefox).
+3. Build the project and Launch the application using IIS Express(Firefox).
 
 Once the application has loaded, a new Firefox browser tab will be launched to the home page, default IIS `http://localhost:24635/`. (This may be different in your environment)
 
-Image from Working App
-==========================
-![Alt text](README/twoway.jpg?raw=true "two-way flight")
-
-![Alt text](README/oneway.jpg?raw=true "one-way flight")
-
-![Alt text](README/noresult.jpg?raw=true "non flight result")
-
-![Alt text](README/unsupported.jpg?raw=true "unsupported Browser")
-
 What is the expected input
 ===========================
-User will manually enter the airport or city code information or select it from the auto-complete drop-down in the 'FROM'/'TO' text box, select the depart and return date then click search.
+User will manually enter the airport's IATA code or city's name information or select a option from the auto-complete drop-down list in the 'FROM'/'TO' text box, select the depart and return date then click search.
 
-**auto-complete**: Will show top 5 matching based on the user input starts with the airports IATA code or city name or country. 
+**auto-complete**: Will show top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
 Note: For a production version of similar App, the user should be limit to only allow to select values from the drop-down list. This would avoid unnecessary search for invalid airport code. 
 
@@ -70,10 +60,19 @@ If no flights found. The user will see message in the home page indicating 'no f
 
 If users using unsupported browser, a unsupported browser message will be displayed.
 
+Images
+==========================
+![Alt text](README/twoway.jpg?raw=true "two-way flight")
+
+![Alt text](README/oneway.jpg?raw=true "one-way flight")
+
+![Alt text](README/noresult.jpg?raw=true "non flight result")
+
+![Alt text](README/unsupported.jpg?raw=true "unsupported Browser")
+
 Application Log
 ===============================
 Navigate to `<project root>\Flightscraper.Spa\Logs`
-
 
 Web Routes
 ==========
