@@ -6,8 +6,7 @@ inquire about real-time flights prices.
 Skyscanner - API limitation
 ==============================
 Rapidapi-Skyscanner api most often does not return inbound flights quotes. you can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
-Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself.  
-This project will redirect you to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
+Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself. This project will redirect you to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
 
 Azure Live
 ===========
