@@ -134,8 +134,6 @@ namespace Flightscraper.Spa.Controllers
                         ModelState.AddModelError("inboundDate", "Return date expected format “yyyy-mm-dd” or empty string for one-way flight.");
                     }
                 }
-
-
             }
             else
             {
