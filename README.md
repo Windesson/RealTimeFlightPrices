@@ -5,7 +5,7 @@ inquire about real-time flights prices.
 
 Skyscanner - API limitation
 ==============================
-Rapidapi-Skyscanner API most often does not return inbound flights quotes for a round trip. This can verify this by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
+Rapidapi-Skyscanner API most often does not return inbound flights quotes for a round trip. This can verify by running the same query using https://rapidapi.com/skyscanner/api/skyscanner-flight-search.
 Rapidapi-Skyscanner does not provide a booking link to view the quote deals on Skyscanner website itself. This project will redirect the user to the real skyscanner website on “View More Deals”, but don't expected to find the same deals return by Rapidapi-Skyscanner.
 
 Azure Live
@@ -50,7 +50,7 @@ What is the expected output
 ===========================
 If flights found... each flight response will contain the `search-source`, `carrier`, `source-destination`, `number of stops`, `flight-price`, `link` to view more deals.
 
-**Link to view deals**: This will take the user to either Kayak or Skyscanner to browse for t deals.
+**Link to view deals**: This will take the user to either Kayak or Skyscanner to browse for more relevant flight deals.
 
 Note: There might be cases where flight results might seem duplicated in the home page, but it actual means that the flight service provider might have similar flights departing on different time.
 this edge case will be ignore for the present occasion.
@@ -76,6 +76,6 @@ Navigate to `<project root>\Flightscraper.Spa\Logs`
 
 Web Routes
 ==========
-`api/airport/{query}` to query for airport information.
-`api/flight/{originPlace}/{destinationPlace}/{outboundDate}` to search one-way flight prices
-`api/flight/{originPlace}/{destinationPlace}/{outboundDate}/{inboundDate}` to search two-way flight prices
+`api/airport/{query}` to query for airport information.\
+`api/flight/{originPlace}/{destinationPlace}/{outboundDate}` to search one-way flight prices.\
+`api/flight/{originPlace}/{destinationPlace}/{outboundDate}/{inboundDate}` to search two-way flight prices.\
