@@ -42,13 +42,13 @@ Once the application has loaded, a new Firefox browser tab will be launched to t
 
 What is the expected input
 ===========================
-User will manually enter the airport's IATA code or city's name information or select an option from the auto-complete drop-down list in the 'FROM'/'TO' text box. 
-User will select the depart and return dates.
+User will manually enter the airport's IATA code or city's name information or select an option from the auto-complete drop-down list in the 'FROM'/'TO' text box.\ 
+User will select the depart and return dates.\
 User will then click search.
 
-**auto-complete**: shows the top 5 matching airports where the user input starts with the airports IATA code or city name. 
+**On Auto-complete**: shows the top 5 matching airports where the user input starts with the airports IATA code or city name. 
 
-**search**: Retrieves flight from both Rapidapi-Skyscanner and Kayak website. Since scraping website is not ideal or reliable for computer-to-computer communication, search at least twice will return better results.   
+**On Search**: Retrieves flight from both Rapidapi-Skyscanner and Kayak website. Since scraping website is not ideal or reliable for computer-to-computer communication, search at least twice will return better results.   
 
 Note: For a production version of similar App, the user should be limited to select airports from the drop-down list. 
 This is to avoid unnecessary search for invalid airport or city code. 
