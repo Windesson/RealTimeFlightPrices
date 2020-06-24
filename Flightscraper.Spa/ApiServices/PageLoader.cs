@@ -20,7 +20,7 @@ namespace Flightscraper.Spa.ApiServices
         /// </summary>
         static PageLoader()
         {
-            HttpClientService = new HttpClient();
+            HttpClientService = new HttpClient {Timeout = TimeSpan.FromSeconds(5)};
         }
 
         /// <summary>
