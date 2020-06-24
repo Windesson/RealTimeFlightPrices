@@ -31,8 +31,6 @@ namespace FlightScraper.UnitTests.Controller
 
             MockIFlightRepository = new Mock<IFlightRepository>();
             MockIFlightRepository.SetupAllProperties();
-
-            UnityConfig.Container.RegisterInstance(MockIFlightRepository.Object);
         }
 
 
@@ -98,7 +96,7 @@ namespace FlightScraper.UnitTests.Controller
 
         private static FlightController SetUpFlightController()
         {
-            var controller = new FlightController
+            FlightController controller = new FlightController(MockIFlightRepository.Object)
             {
                 Request = new HttpRequestMessage(),
                 Configuration = new HttpConfiguration()

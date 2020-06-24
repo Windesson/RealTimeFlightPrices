@@ -31,9 +31,9 @@ namespace Flightscraper.Spa.Controllers
         /// <summary>
         ///  Load flight repository using dependency injection. 
         /// </summary>
-        public FlightController()
+        public FlightController(IFlightRepository repository)
         {
-            _flightRepository = UnityConfig.Container.Resolve<IFlightRepository>();
+            _flightRepository = repository;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Flightscraper.Spa.Controllers
 
                 if (IsDateWithinAllowedRange(departDate)) // depart cannot be more than 334 days 
                 {
-                    ModelState.AddModelError("outboundDate", $"Depart date cannot be more than than {maxTotalDaysRangeAllowed} days from today's date.");
+                    ModelState.AddModelError("outboundDate", $"Depart date cannot be more than than {maxTotalDaysRangeAllowed} days from today's date. `{DateTime.Now.ToString("MM/dd/yyyy")}`");
                 }
 
                 if (!returnDateString.IsNullOrEmpty()) // if return date is provided
@@ -125,9 +125,8 @@ namespace Flightscraper.Spa.Controllers
 
                         if (IsDateWithinAllowedRange(returnDate)) // depart cannot be more than 334 days 
                         {
-                            ModelState.AddModelError("inboundDate", $"Return date cannot be more than {maxTotalDaysRangeAllowed} days from today's date.");
+                            ModelState.AddModelError("inboundDate", $"Return date cannot be more than {maxTotalDaysRangeAllowed} days from today's date. `{DateTime.Now.ToString("MM/dd/yyyy")}`");
                         }
-
                     }
                     else
                     {

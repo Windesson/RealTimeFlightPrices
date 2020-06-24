@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using Flightscraper.Spa.App_Start;
+using Flightscraper.Spa.Conf;
+using Unity;
 
 namespace Flightscraper.Spa
 {
@@ -11,6 +14,12 @@ namespace Flightscraper.Spa
     {
         protected void Application_Start()
         {
+            // Creat unity container 
+            UnityConfig.RegisterContainer(new UnityContainer());
+
+            GlobalConfiguration.Configuration.DependencyResolver = new UnityResolver(UnityConfig.Container);
+
+            // Here your usual Web API configuration stuff.
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

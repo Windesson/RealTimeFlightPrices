@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
-using Flightscraper.Spa.Conf;
-using Unity;
+﻿using System.Web.Http;
 
 namespace Flightscraper.Spa
 {
@@ -33,7 +28,6 @@ namespace Flightscraper.Spa
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            UnityConfig.RegisterContainer(new UnityContainer());
         }
     }
 }

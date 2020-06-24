@@ -32,7 +32,7 @@ namespace Flightscraper.Spa.ApiServices
             BaseBookingUrl = ConfigurationManager.AppSettings["Skyscanner:booking:flights"];
             SecretRapidApiHost = ConfigurationManager.AppSettings[RapidApiHostAppSettingName];
             SecretRapidApiKey = ConfigurationManager.AppSettings[RapidApiKeyAppSettingName];
-            LocalHttpClient = new HttpClient();
+            LocalHttpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
         }
 
         /// <summary>

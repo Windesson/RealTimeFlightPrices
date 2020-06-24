@@ -75,7 +75,7 @@ ko.bindingHandlers.ko_autocomplete = {
             self.flightReturnDate = ko.observable();
 
             self.searchResults = ko.observableArray();
-            self.error = ko.observableArray();
+            self.errors = ko.observableArray();
             self.flightOriginOption = ko.observable();
             self.flightDestinationOption = ko.observable();
 
@@ -109,10 +109,10 @@ ko.bindingHandlers.ko_autocomplete = {
                                     modelState[property].forEach(item => errors.push(item));
                                 }
                             }
-                            self.error(errors);
+                            self.errors(errors);
                             console.log(errors);
                         }).catch( 
-                            self.error(defaultMessage)
+                            self.errors(defaultMessage)
                         );
                         return;
                     }
@@ -120,7 +120,7 @@ ko.bindingHandlers.ko_autocomplete = {
                         console.log(error);
                     }
                 }
-                self.error(defaultMessage);
+                self.errors(defaultMessage);
             }
 
             // Event Listener search for flights 
@@ -143,11 +143,10 @@ ko.bindingHandlers.ko_autocomplete = {
                         return;
                     }
 
-                    self.error(ko.utils.arrayMap()); // Clear the error
+                    self.errors(ko.utils.arrayMap()); // Clear the errors
                     self.searchResults(ko.utils.arrayMap()); //Reset results
                     self.loadingMessage("searching...");
 
-                    $("#search").prop("disabled", true); // Disable search button on search init
                     self.getFlights(originPlace.airport, destinationPlace.airport, depart, self.flightReturnDate())
                         .then(_ => {
                             if (self.searchResults().length === 0) {
@@ -155,13 +154,11 @@ ko.bindingHandlers.ko_autocomplete = {
                             } else {
                                 self.loadingMessage("");
                             }
-                            $("#search").prop("disabled", false); // Enable search button on search complete
                         });
 
                 } catch (error) {
                     console.log(error);
                     self.loadingMessage("Oops, something went wrong.");
-                    $("#search").prop("disabled", false); // Disable search button on error
                 } 
                  
             };

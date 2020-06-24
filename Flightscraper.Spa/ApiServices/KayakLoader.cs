@@ -17,11 +17,10 @@ namespace Flightscraper.Spa.ApiServices
     /// <summary>
     /// Load real-time flights from Kayak.
     /// Parse Html document.
-    /// Handle configuration dependecies.
+    /// Handle configuration dependencies.
     /// </summary>
     public class KayakLoader
     {
-        private static readonly ILog Logger;
         private static readonly string KayakFlightsUrl;
         private static readonly IPageLoader DocumentLoader;
         private static readonly string KayakFlightUrlKey = "Kayak:flights:url";
@@ -31,7 +30,6 @@ namespace Flightscraper.Spa.ApiServices
         static KayakLoader()
         {
             KayakFlightsUrl = ConfigurationManager.AppSettings[KayakFlightUrlKey];
-            Logger = UnityConfig.Container.Resolve<ILoggerWrapper>().GetLogger(typeof(KayakLoader));
             DocumentLoader = UnityConfig.Container.Resolve<IPageLoader>();
         }
 
