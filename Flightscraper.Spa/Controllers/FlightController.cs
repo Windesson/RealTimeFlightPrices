@@ -31,9 +31,9 @@ namespace Flightscraper.Spa.Controllers
         /// <summary>
         ///  Load flight repository using dependency injection. 
         /// </summary>
-        public FlightController()
+        public FlightController(IFlightRepository repository)
         {
-            _flightRepository = UnityConfig.Container.Resolve<IFlightRepository>();
+            _flightRepository = repository;
         }
 
         /// <summary>

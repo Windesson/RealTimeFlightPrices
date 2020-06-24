@@ -27,9 +27,9 @@ namespace Flightscraper.Spa.Controllers
         /// <summary>
         ///  Load airport repository.
         /// </summary>
-        public AirportController()
+        public AirportController(IAirportRepository airportRepository)
         {
-            _airportRepository = UnityConfig.Container.Resolve<IAirportRepository>();
+            _airportRepository = airportRepository;
         }
 
         /// <summary>

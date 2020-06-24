@@ -244,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiServices\KayakLoader.cs" />
+    <Compile Include="App_Start\UnityResolver.cs" />
     <Compile Include="Interfaces\ISkyscannerLoader.cs" />
     <Compile Include="ApiServices\SkyscannerLoader.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
