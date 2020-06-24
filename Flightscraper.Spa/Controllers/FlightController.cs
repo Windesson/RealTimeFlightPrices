@@ -106,7 +106,12 @@ namespace Flightscraper.Spa.Controllers
 
                 if (departDate < DateTime.Today) // cannot depart from the past 
                 {
-                    ModelState.AddModelError("outboundDate", $"Depart date cannot be less than today. `{DateTime.Today}`");
+                    ModelState.AddModelError("outboundDate", $"Depart date cannot be less than today. `{DateTime.Now.ToString("MM/dd/yyyy")}`");
+                }
+
+                if (IsDateWithinAllowedRange(departDate)) // depart cannot be more than 334 days 
+                {
+                    ModelState.AddModelError("outboundDate", $"Depart date cannot be more than than {maxTotalDaysRangeAllowed} days from today's date.");
                 }
 
                 if (IsDateWithinAllowedRange(departDate)) // depart cannot be more than 334 days 
