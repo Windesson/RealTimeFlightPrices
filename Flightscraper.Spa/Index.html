@@ -13,7 +13,7 @@
    
     <title>Find Cheap Flights & Plane Tickets with | Skyscraper</title>
 </head>
-<body>
+<body data-bind="style: { cursor: loadingMessage() == 'searching...' ? 'progress' : 'default' }">
     <main id="main" role="main" class="container  justify-content-md-center">
         <section id="knockoutBound">
             <section data-bind="visible:errors().length">
