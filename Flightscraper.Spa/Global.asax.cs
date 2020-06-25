@@ -14,7 +14,7 @@ namespace Flightscraper.Spa
     {
         protected void Application_Start()
         {
-            // Creat unity container 
+            // Create unity container 
             UnityConfig.RegisterContainer(new UnityContainer());
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityResolver(UnityConfig.Container);

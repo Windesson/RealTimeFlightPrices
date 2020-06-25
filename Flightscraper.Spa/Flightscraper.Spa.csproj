@@ -260,7 +260,6 @@
     <Compile Include="Data\AirportRepository.cs" />
     <Compile Include="Data\FlightRepository.cs" />
     <Compile Include="ApiServices\PageLoader.cs" />
-    <Compile Include="Extension\StringExtensions.cs" />
     <Compile Include="Interfaces\IAirportRepository.cs" />
     <Compile Include="Interfaces\IPageLoader.cs" />
     <Compile Include="Interfaces\IFlightReader.cs" />

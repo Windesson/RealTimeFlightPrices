@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Castle.Core.Internal;
 using Flightscraper.Spa.Conf;
-using Flightscraper.Spa.Extension;
 using Flightscraper.Spa.Interfaces;
 using Flightscraper.Spa.Models;
 using log4net;
@@ -17,23 +16,16 @@ namespace Flightscraper.Spa.Data
     /// </summary>
     public class AirportRepository : IAirportRepository
     {
-        private readonly IEnumerable<Airport> _airports;
+        private static readonly IEnumerable<Airport> Airports;
         private static readonly ILog Logger;
 
         static AirportRepository()
         {
             Logger = UnityConfig.Container.Resolve<ILoggerWrapper>().GetLogger(typeof(FlightRepository));
+            var filePath = System.Web.HttpContext.Current.Server.MapPath("~/OpenFlights/airports.dat");
+            Airports = ReadOpenFlightAirports(filePath);
         }
 
-        /// <summary>
-        ///  Load airport data stored locally.
-        ///  Data file provied by openflights.org
-        /// </summary>
-        public AirportRepository()
-        {
-            var filePath = System.Web.HttpContext.Current.Server.MapPath("~/OpenFlights/airports.dat");
-            _airports = ReadOpenFlightAirports(filePath);
-        }
 
         /// <summary>
         /// Load airport data to memory 
@@ -58,6 +50,7 @@ namespace Flightscraper.Spa.Data
                         var city = values[2].Replace("\"", "");
                         var country = values[3].Replace("\"", "");
 
+                        //we only want airport that contain the below information.
                         if (iataCode.Length != 3 || city.IsNullOrEmpty() || country.IsNullOrEmpty()) continue;
 
                         var airport = new Airport();
@@ -92,7 +85,7 @@ namespace Flightscraper.Spa.Data
         /// <returns></returns>
         public IEnumerable<Airport> FindAirports(string query, int limit)
         {
-            return _airports
+            return Airports
                 .Where(_ => _.City.StartsWith(query, StringComparison.OrdinalIgnoreCase) ||
                             _.IATA.StartsWith(query, StringComparison.OrdinalIgnoreCase) ||
                             _.Country.StartsWith(query, StringComparison.OrdinalIgnoreCase)) 
@@ -105,7 +98,7 @@ namespace Flightscraper.Spa.Data
         /// <returns></returns>
         public IEnumerable<Airport> GetAirports()
         {
-            return _airports
+            return Airports
                 .OrderBy(_ => _.Name);
         }
 
