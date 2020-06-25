@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Flightscraper.Spa.Models
 {
@@ -14,17 +10,17 @@ namespace Flightscraper.Spa.Models
         //Name of airport. May or may not contain the City name.
         public string Name { get; set; }
 
-        //Main city served by airport. May be spelled differently from Name.
+        //Main city served by airport. 
         public string City { get; set; }
 
         //Country or territory where airport is located
         public string Country { get; set; }
 
-        //3-letter IATA code. Null if not assigned/unknown.
+        //3-letter International Air Transport Association airport code.
         [MaxLength(3)]
         public string IATA { get; set; }
 
-        //4-letter ICAO code. Null if not assigned.
+        //4-letter International Civil Aviation Organization
         [MaxLength(4)]
         public string ICAO { get; set; }
 

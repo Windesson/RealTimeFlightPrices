@@ -79,7 +79,7 @@ namespace Flightscraper.Spa.Data
         }
 
         /// <summary>
-        /// Find aiports on query 
+        /// Find airports on query 
         /// </summary>
         /// <param name="query">string query to search</param>
         /// <returns></returns>
