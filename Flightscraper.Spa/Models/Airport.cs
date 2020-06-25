@@ -8,8 +8,6 @@ namespace Flightscraper.Spa.Models
 {
     public class Airport
     {
-        public string Label => Country == "United States" ? $"{City} ({IATA})" : $"{City}, {Country} ({IATA})";
-
         //Unique OpenFlights identifier for this airport.
         public int Id { get; set; }
 
@@ -30,6 +28,8 @@ namespace Flightscraper.Spa.Models
         [MaxLength(4)]
         public string ICAO { get; set; }
 
+        //This is shown by the autocomplete in the UI form.
+        public string Label => Country == "United States" ? $"{City} ({IATA})" : $"{City}, {Country} ({IATA})";
 
     }
 }
