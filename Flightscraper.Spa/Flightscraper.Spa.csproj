@@ -252,7 +252,8 @@
   <ItemGroup>
     <Compile Include="ApiServices\KayakLoader.cs" />
     <Compile Include="App_Start\UnityResolver.cs" />
-    <Compile Include="Context.cs" />
+    <Compile Include="Data\Context.cs" />
+    <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Interfaces\ISkyscannerLoader.cs" />
     <Compile Include="ApiServices\SkyscannerLoader.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -294,6 +295,7 @@
     <Content Include="OpenFlights\airports.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="OpenFlights\airports.dacpac" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.js.map" />
     <None Include="Properties\PublishProfiles\RealTimeFlightPrice - Web Deploy.pubxml" />

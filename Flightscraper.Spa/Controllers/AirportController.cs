@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Http;
 using Flightscraper.Spa.Interfaces;
 using Flightscraper.Spa.Conf;
+using Flightscraper.Spa.Data;
 using Flightscraper.Spa.Models;
 using Unity;
 using log4net;

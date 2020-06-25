@@ -18,7 +18,7 @@ namespace Flightscraper.Spa.Conf
 
             Container.RegisterType<ILoggerWrapper, LoggerWrapper>(TypeLifetime.Singleton);
             Container.RegisterType<IQuoteIdGenerator, QuoteIdGenerator>(TypeLifetime.Singleton);
-            Container.RegisterType<IAirportRepository, AirportRepository>(TypeLifetime.Singleton);
+            Container.RegisterType<IAirportRepository, AirportRepository>();
             Container.RegisterType<ISkyscannerLoader, SkyscannerLoader>(TypeLifetime.Singleton);
             Container.RegisterType<IPageLoader, PageLoader>(TypeLifetime.Singleton);
             Container.RegisterType<IFlightResponseReader, KayakResponseReader>("Kayak", new InjectionConstructor());
