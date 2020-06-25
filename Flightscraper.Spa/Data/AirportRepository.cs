@@ -59,11 +59,9 @@ namespace Flightscraper.Spa.Data
                             airport.Id = id;
                         }
 
-                        airport.Name = values[1].Replace("\"","");
                         airport.City = city;
                         airport.Country = country;
                         airport.IATA = iataCode;
-                        airport.ICAO = values[5].Replace("\"", "");
 
                         airportResults.Add(airport);
                     }
@@ -99,7 +97,7 @@ namespace Flightscraper.Spa.Data
         public IEnumerable<Airport> GetAirports()
         {
             return Airports
-                .OrderBy(_ => _.Name);
+                .OrderByDescending(_ => _.Country == "United States").ThenBy(_ => _.City);
         }
 
     }
