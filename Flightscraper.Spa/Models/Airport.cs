@@ -11,7 +11,7 @@ namespace Flightscraper.Spa.Models
         public string Label => Country == "United States" ? $"{City} ({IATA})" : $"{City}, {Country} ({IATA})";
 
         //Unique OpenFlights identifier for this airport.
-        public int AirportId { get; set; }
+        public int Id { get; set; }
 
         //Name of airport. May or may not contain the City name.
         public string Name { get; set; }

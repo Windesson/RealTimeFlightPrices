@@ -61,7 +61,7 @@ ko.bindingHandlers.ko_autocomplete = {
             const self = this;
             data = data || {};
 
-            self.id = data.AirportId;
+            self.id = data.Id;
             self.label = data.Label;
             self.airport = data.IATA;
         }

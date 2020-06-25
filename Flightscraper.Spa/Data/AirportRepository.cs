@@ -63,7 +63,7 @@ namespace Flightscraper.Spa.Data
                         var airport = new Airport();
                         if (int.TryParse(values[0], out var id))
                         {
-                            airport.AirportId = id;
+                            airport.Id = id;
                         }
 
                         airport.Name = values[1].Replace("\"","");
