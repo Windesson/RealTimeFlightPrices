@@ -71,13 +71,16 @@ ko.bindingHandlers.ko_autocomplete = {
 
             // View-model observables
             self.loadingMessage = ko.observable();
-            self.flightDepartDate = ko.observable();
-            self.flightReturnDate = ko.observable();
 
+            //helpers
             self.searchResults = ko.observableArray();
             self.errors = ko.observableArray();
+
+            //form 
             self.flightOriginOption = ko.observable();
             self.flightDestinationOption = ko.observable();
+            self.flightDepartDate = ko.observable();
+            self.flightReturnDate = ko.observable();
 
 
             // Adds a JSON array of flights to the view model.
@@ -181,6 +184,8 @@ ko.bindingHandlers.ko_autocomplete = {
             //display binding elements
             $("#knockoutBound").show();
 
+            // This makes backend get to work and load container to improve speed
+            app.service.Airport("Miami");
         };
 
     try {

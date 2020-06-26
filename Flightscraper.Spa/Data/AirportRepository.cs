@@ -17,19 +17,20 @@ namespace Flightscraper.Spa.Data
     /// </summary>
     public class AirportRepository : IAirportRepository
     {
-        private readonly IEnumerable<Airport> _airports;
+        private static IEnumerable<Airport> _airports;
         private static readonly ILog Logger;
 
         static AirportRepository()
         {
             Logger = UnityConfig.Container.Resolve<ILoggerWrapper>().GetLogger(typeof(FlightRepository));
+            if(_airports.IsNullOrEmpty()) LoadAirports();
         }
 
         /// <summary>
         ///  Load airport data stored locally.
-        ///  Data file provied by openflights.org
+        ///  Data file retrieved from open flights org
         /// </summary>
-        public AirportRepository()
+        public static void LoadAirports()
         {
             var filePath = System.Web.HttpContext.Current.Server.MapPath("~/OpenFlights/airports.dat");
             _airports = ReadOpenFlightAirports(filePath);
