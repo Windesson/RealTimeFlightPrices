@@ -20,7 +20,7 @@ namespace Flightscraper.Spa.ApiServices
 
         static SkyscannerResponseReader()
         {
-            Logger = UnityConfig.Container.Resolve<ILoggerWrapper>().GetLogger(typeof(KayakResponseReader));
+            Logger = UnityConfig.Container.Resolve<ILoggerWrapper>().GetLogger(typeof(SkyscannerResponseReader));
             Loader = UnityConfig.Container.Resolve<ISkyscannerLoader>();
         }
 

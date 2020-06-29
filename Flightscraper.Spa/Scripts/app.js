@@ -5,6 +5,9 @@ ko.bindingHandlers.ko_autocomplete = {
         const airports = settings.source;
         const selectedAirport = settings.selected;
 
+        //loading default once
+        $(element).val(selectedAirport().airport);
+
         const updateElementValueWithAirportCode = function (event, ui) {
 
             // Stop the default behavior
@@ -66,6 +69,15 @@ ko.bindingHandlers.ko_autocomplete = {
             self.airport = data.IATA;
         }
 
+
+        function getToday() {
+
+            const today = new Date();
+            var month = today.getMonth() + 1;
+            month = month < 10 ? "0" + month : month;
+            return today.getFullYear() + "-" + month + "-" + today.getDate();
+        }
+
         const ViewModel = function () {
             var self = this;
 
@@ -77,9 +89,9 @@ ko.bindingHandlers.ko_autocomplete = {
             self.errors = ko.observableArray();
 
             //form 
-            self.flightOriginOption = ko.observable();
-            self.flightDestinationOption = ko.observable();
-            self.flightDepartDate = ko.observable();
+            self.flightOriginOption = ko.observable({ airport: "MIA"});
+            self.flightDestinationOption = ko.observable({ airport: "NYC"});
+            self.flightDepartDate = ko.observable(getToday());
             self.flightReturnDate = ko.observable();
 
 
@@ -184,13 +196,15 @@ ko.bindingHandlers.ko_autocomplete = {
             //display binding elements
             $("#knockoutBound").show();
 
-            // This makes backend get to work and load container to improve speed
-            app.service.Airport("Miami");
         };
 
     try {
 
-        ko.applyBindings(new ViewModel()); // This makes Knockout get to work
+        const viewmodel = new ViewModel();
+        ko.applyBindings(viewmodel); // This makes Knockout get to work
+
+        // This makes the app get to work
+        viewmodel.search();
 
     } catch (err) {
 
